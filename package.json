@@ -1,0 +1,29 @@
+{
+  "name": "strativity",
+  "version": "1.0.0",
+  "description": "",
+  "main": " ",
+  "scripts": {
+    "test": " "
+  },
+  "repository": {
+    "type": "git",
+    "url": " "
+  },
+  "keywords": [],
+  "author": "Danny van Kooten <hi@dvk.co> (http://dvk.co/)",
+  "license": "ISC",
+  "dependencies": {
+    "form-serialize": "^0.7.1",
+    "leaflet": "^0.7.7",
+    "mithril": "^0.2.5",
+    "qwest": "^4.4.5"
+  },
+  "devDependencies": {
+    "browserify": "^13.1.0",
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}
