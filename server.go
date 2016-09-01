@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strconv"
 
 	"github.com/gorilla/mux"
@@ -20,6 +21,7 @@ var port int
 var userTokens map[int64]string
 var store *sessions.CookieStore
 var siteURL string
+var wd string
 
 func main() {
 	flag.StringVar(&siteURL, "site_url", "http://localhost/", "Site URL")
@@ -33,6 +35,8 @@ func main() {
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
+
+	wd, _ = os.Getwd()
 
 	// bootstrap auth stuff
 	authenticator = &strava.OAuthAuthenticator{
@@ -48,7 +52,7 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/", getHome)
 	r.HandleFunc("/map", getActivityMap)
-	r.HandleFunc("/intensities", getIntensityOverview)
+	r.HandleFunc("/analysis", getAnalysisPage)
 	r.HandleFunc("/api/activities", getActivities)
 	r.HandleFunc("/api/activities/{activityId}/streams", getActivityStreams)
 	path, _ := authenticator.CallbackPath()
@@ -66,7 +70,8 @@ func getHome(w http.ResponseWriter, r *http.Request) {
 	p := map[string]string{
 		"AuthURL": authenticator.AuthorizationURL("state1", strava.Permissions.Public, true),
 	}
-	t, _ := template.ParseFiles("index.html")
+
+	t, _ := template.ParseFiles(filepath.Join(wd, "./index.html"))
 	t.Execute(w, p)
 }
 
@@ -80,7 +85,7 @@ func oAuthSuccess(auth *strava.AuthorizationResponse, w http.ResponseWriter, r *
 	session.Save(r, w)
 
 	// redirect to intensity overview page
-	http.Redirect(w, r, "/intensities", 302)
+	http.Redirect(w, r, "/analysis", 302)
 }
 
 func oAuthFailure(err error, w http.ResponseWriter, r *http.Request) {
@@ -96,17 +101,17 @@ func getActivityMap(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/html")
-	http.ServeFile(w, r, "map.html")
+	http.ServeFile(w, r, filepath.Join(wd, "./map.html"))
 }
 
-func getIntensityOverview(w http.ResponseWriter, r *http.Request) {
+func getAnalysisPage(w http.ResponseWriter, r *http.Request) {
 	_, authenticated := getAuthenticatedStravaClient(r)
 	if !authenticated {
 		http.Redirect(w, r, "/", 301)
 		return
 	}
 	w.Header().Set("Content-Type", "text/html")
-	http.ServeFile(w, r, "intensities.html")
+	http.ServeFile(w, r, filepath.Join(wd, "./analysis.html"))
 }
 
 func getActivities(w http.ResponseWriter, r *http.Request) {
