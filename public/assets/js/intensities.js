@@ -3431,10 +3431,7 @@ qwest.get('/api/activities')
 // init on load
 window.onload = function() {
   reset();
-  var element = document.createElement('div');
-  document.body.innerHTML = '';
-  document.body.appendChild(element);
-  m.mount(element, { view: view })
+  m.mount(document.getElementById('app'), { view: view })
 }
 
 },{"./views/activities.js":8,"./views/analysis.js":9,"form-serialize":1,"mithril":3,"qwest":6}],8:[function(require,module,exports){

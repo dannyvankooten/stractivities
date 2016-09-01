@@ -3,8 +3,26 @@
 <head>
   <title>Stractivities</title>
   <link href="/assets/css/styles.css" rel="stylesheet" />
+  <link href="/assets/fonts/foundation-icons.css" rel="stylesheet" />
 </head>
 <body>
-   <a href="{{.AuthURL}}"><img src="https://strava.github.io/api/images/ConnectWithStrava.png" alt="Connect with Strava" /></a>
+   <div class="container" style="max-width: 360px;">
+     <header role="banner" class="header">
+       <h1>Stractivities</h1>
+     </header>
+     <p class="">Multi-activity analysis for your Strava activities.</p>
+     <ul>
+        <li>Analyse heart rate zones across multiple activities.</li>
+        <li>Aggregate activity metrics like distance, time and average pace.</li>
+        <li>Merge multiple activities into one <em>(coming soon)</em>.</li>
+     </ul>
+     <p class="centered medium-margin">
+       <a href="{{.AuthURL}}"><img src="https://strava.github.io/api/images/ConnectWithStrava.png" alt="Connect with Strava" /></a>
+     </p>
+
+     <footer class="footer">
+        <a href="https://github.com/dannyvankooten/stractivities"><i class="fi-social-github"></i></a>
+     </footer>
+   </div>
 </body>
 </html>

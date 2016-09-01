@@ -2,12 +2,43 @@ progress,sub,sup{vertical-align:baseline}button,hr,input{overflow:visible}html{f
 
 body {
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   color: #444;
+  padding: 40px;
+  background: url( "../img/bg.jpg");
+  background-size: cover;
+  line-height: 1.4;
+}
+
+.container {
+  margin: 40px;
+  width: 100%;
+  max-width: 640px;
+  background: white;
   padding: 40px;
 }
 
+.header {
+  margin-bottom: 40px;
+}
+
+.footer {
+  margin-top: 40px;
+  font-size: 13px;
+  color: #777;
+  text-align: right;
+}
+
+.footer a {
+  color: #555;
+}
+
 #mapid { height: 100%; }
+
+h1 {
+  font-size: 48px;
+  margin-bottom: 0;
+}
 
 table {
   border-spacing: 0;
@@ -20,7 +51,7 @@ th{
 }
 
 th, td{
-  font-size: 14px;
+  font-size: 16px;
   text-align: left;
   padding: 6px;
   border: 1px solid #efefef;
@@ -32,11 +63,15 @@ th, td{
 
 .meta {
   color: #777;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .centered {
   text-align: center;
+}
+
+p, ul {
+  margin: 20px 0;
 }
 
 a{
@@ -46,6 +81,10 @@ a{
 label {
   display: block;
   font-weight: bold;
+}
+
+ul li{
+  margin: 6px 0;
 }
 
 input,
@@ -67,6 +106,11 @@ button {
 button:hover,
 button:focus {
   background-color: #e34402;
+}
+
+.lead {
+  font-size: 18px;
+  font-style: italic;
 }
 
 .distribution-chart {
@@ -93,6 +137,7 @@ button:focus {
     padding: 0;
     background-color: transparent;
 }
+
 .bar {
   width: 100%;
   height: 100%;
@@ -120,4 +165,9 @@ button:focus {
 
 .bolded {
   font-weight: bold;
+}
+
+.medium-margin {
+  margin-top: 40px;
+  margin-bottom: 40px;
 }

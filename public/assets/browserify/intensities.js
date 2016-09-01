@@ -122,8 +122,5 @@ qwest.get('/api/activities')
 // init on load
 window.onload = function() {
   reset();
-  var element = document.createElement('div');
-  document.body.innerHTML = '';
-  document.body.appendChild(element);
-  m.mount(element, { view: view })
+  m.mount(document.getElementById('app'), { view: view })
 }
