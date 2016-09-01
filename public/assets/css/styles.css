@@ -95,6 +95,13 @@ button {
   border-radius: 1px;
 }
 
+input[type="checkbox"],
+input[type="radio"] {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
 input[type="submit"],
 button {
   background: #FC4C02;
