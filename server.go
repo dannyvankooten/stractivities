@@ -16,11 +16,14 @@ import (
 )
 
 var authenticator *strava.OAuthAuthenticator
-var port = 8080
+var port int
 var userTokens map[int64]string
 var store *sessions.CookieStore
+var siteURL string
 
 func main() {
+	flag.StringVar(&siteURL, "site_url", "http://localhost/", "Site URL")
+	flag.IntVar(&port, "port", 8080, "HTTP Port")
 	flag.IntVar(&strava.ClientId, "id", 0, "Strava Client ID")
 	flag.StringVar(&strava.ClientSecret, "secret", "", "Strava Client Secret")
 	flag.Parse()
@@ -33,7 +36,7 @@ func main() {
 
 	// bootstrap auth stuff
 	authenticator = &strava.OAuthAuthenticator{
-		CallbackURL:            fmt.Sprintf("http://localhost:%d/exchange_token", port),
+		CallbackURL:            fmt.Sprintf("%s/exchange_token", siteURL),
 		RequestClientGenerator: nil,
 	}
 	userTokens = map[int64]string{}
