@@ -37,8 +37,8 @@ module.exports = function(m, activities) {
         m('th', ''),
         m('th', 'Date'),
         m('th', 'Name'),
-        m('th', 'Duration'),
-        m('th', 'Avg HR')
+        m('th.hide-on-mobile', 'Duration'),
+        m('th.hide-on-mobile', 'Avg HR')
       ])
     ]),
 
@@ -56,8 +56,8 @@ module.exports = function(m, activities) {
           })),
           m("td.meta", date.toDateString()),
           m("td.strong", a.name),
-          m("td.centered", Math.round(a.elapsed_time/60) + " min"),
-          m("td.centered", Math.round(a.average_heartrate))
+          m("td.centered.hide-on-mobile", Math.round(a.elapsed_time/60) + " min"),
+          m("td.centered.hide-on-mobile", Math.round(a.average_heartrate))
         ])
     }))
 

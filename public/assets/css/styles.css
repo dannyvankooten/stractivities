@@ -17,7 +17,6 @@ body {
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   font-size: 15px;
   color: #444;
-  padding: 40px;
   background: url( "../img/bg.jpg");
   background-size: cover;
   line-height: 1.4;
@@ -49,8 +48,8 @@ body {
 #mapid { height: 100%; }
 
 h1 {
-  font-size: 48px;
-  margin-bottom: 0;
+  font-size: 32px;
+  margin: 0;
 }
 
 table {
@@ -221,4 +220,8 @@ button:focus {
 
 .row.col-2{
   width: 33.333%;
+}
+
+@media(max-width: 640px) {
+  .hide-on-mobile { display: none !important; }
 }

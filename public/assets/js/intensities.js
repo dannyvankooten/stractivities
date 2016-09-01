@@ -3318,7 +3318,7 @@ var views = {
 };
 
 var activities = [];
-var maxHeartRate = 200;
+var maxHeartRate = localStorage.maxHeartRate || 200;
 var zones, totals, calculating;
 
 function view() {
@@ -3330,7 +3330,7 @@ function view() {
   };
 
   if( calculating ) {
-    return [ views.analysis(m, map, totals, zones), m("p", m("a", { onclick: reset, href: "#" }, "Go back")) ];
+    return [ views.analysis(m, map, totals, zones), m("p", m("a", { onclick: reset, href: "#" }, m.trust("&larr; Go back"))) ];
   }
 
   return [
@@ -3344,7 +3344,10 @@ function view() {
           placeholder: "Max HR",
           max: 250, min: 60,
           value: maxHeartRate,
-          onchange: function(e) { maxHeartRate = parseInt(e.target.value); }
+          onchange: function(e) {
+            maxHeartRate = parseInt(e.target.value);
+            localStorage.maxHeartRate = maxHeartRate;
+          }
         })
       ]),
 
@@ -3395,6 +3398,15 @@ function aggregate() {
   for(var i=0; i < data.activities.length; i++) {
     var activityId = data.activities[i];
     var activity = getActivity(activityId);
+    console.log(activity);
+
+    if( activity.max_heartrate > totals.maxHeartRate) {
+      totals.maxHeartRate = activity.max_heartrate;
+    }
+
+    if( activity.max_speed > totals.maxSpeed) {
+      totals.maxSpeed = activity.max_speed;
+    }
 
     totals.distance += activity.distance;
     totals.movingTime += activity.moving_time;
@@ -3427,7 +3439,9 @@ function reset() {
   totals = {
     distance: 0,
     pace: 0,
-    movingTime: 0
+    movingTime: 0,
+    maxSpeed: 0,
+    maxHeartRate: 0,
   };
   calculating = false;
   m.redraw();
@@ -3496,8 +3510,8 @@ module.exports = function(m, activities) {
         m('th', ''),
         m('th', 'Date'),
         m('th', 'Name'),
-        m('th', 'Duration'),
-        m('th', 'Avg HR')
+        m('th.hide-on-mobile', 'Duration'),
+        m('th.hide-on-mobile', 'Avg HR')
       ])
     ]),
 
@@ -3515,8 +3529,8 @@ module.exports = function(m, activities) {
           })),
           m("td.meta", date.toDateString()),
           m("td.strong", a.name),
-          m("td.centered", Math.round(a.elapsed_time/60) + " min"),
-          m("td.centered", Math.round(a.average_heartrate))
+          m("td.centered.hide-on-mobile", Math.round(a.elapsed_time/60) + " min"),
+          m("td.centered.hide-on-mobile", Math.round(a.average_heartrate))
         ])
     }))
 
@@ -3534,6 +3548,14 @@ function percentage( value, total ) {
   return Math.round(value / total * 100);
 }
 
+function ltrim(string, char) {
+  while(string[0] === char) {
+    string = string.substr(1, string.length-1);
+  }
+
+  return string;
+}
+
 module.exports = function( m, map, totals, zones ) {
   var zonePercentages = {
     0: percentage(zones[0], zones.total),
@@ -3543,12 +3565,18 @@ module.exports = function( m, map, totals, zones ) {
     4: percentage(zones[4], zones.total),
   };
 
-  var date = new Date(null);
-  date.setSeconds(totals.movingTime / ( totals.distance / 1000 ) );
+  var pace = new Date(null);
+  pace.setSeconds(totals.movingTime / ( totals.distance / 1000 ) );
+  var movingTime = new Date(null);
+  movingTime.setSeconds(totals.movingTime);
+
+  var maxPace = new Date(null);
+  maxPace.setSeconds(totals.maxSpeed * 1000 / 60);
 
   return [
-    m("h2", "Intensity Analysis"),
-
+    m("header.header", [
+      m("h1", "Analysis")
+    ]),
 
     m('div.row.medium-margin', [
 
@@ -3562,17 +3590,38 @@ module.exports = function( m, map, totals, zones ) {
 
       m('div.col.col-2', [
         m('span.number', [
-          Math.round( totals.movingTime / 60 ),
-          m('span.unit', " min")
+          ltrim(movingTime.toISOString().substr(11, 8), "0"),
+          m('span.unit', "")
         ]),
         m('span.label', 'Moving Time')
       ]),
 
       m('div.col.col-2', [
         m('span.number', [
-          date.toISOString().substr(14, 5)
+          ltrim(pace.toISOString().substr(14, 5),"0"),
+          m('span.unit', '/km')
         ]),
         m('span.label', "Pace")
+      ])
+
+    ]),
+
+    m('div.row.medium-margin', [
+
+      m('div.col.col-2', [
+        m('span.number', [
+          totals.maxHeartRate,
+          m('span.unit', " bpm")
+        ]),
+        m('span.label', 'Max Heart Rate')
+      ]),
+
+      m('div.col.col-2', [
+        m('span.number', [
+          ltrim(maxPace.toISOString().substr(14, 5),"0"),
+          m('span.unit', '/km')
+        ]),
+        m('span.label', "Max Pace")
       ])
 
     ]),

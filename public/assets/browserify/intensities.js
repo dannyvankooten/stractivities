@@ -21,7 +21,7 @@ function view() {
   };
 
   if( calculating ) {
-    return [ views.analysis(m, map, totals, zones), m("p", m("a", { onclick: reset, href: "#" }, "Go back")) ];
+    return [ views.analysis(m, map, totals, zones), m("p", m("a", { onclick: reset, href: "#" }, m.trust("&larr; Go back"))) ];
   }
 
   return [
@@ -89,6 +89,15 @@ function aggregate() {
   for(var i=0; i < data.activities.length; i++) {
     var activityId = data.activities[i];
     var activity = getActivity(activityId);
+    console.log(activity);
+
+    if( activity.max_heartrate > totals.maxHeartRate) {
+      totals.maxHeartRate = activity.max_heartrate;
+    }
+
+    if( activity.max_speed > totals.maxSpeed) {
+      totals.maxSpeed = activity.max_speed;
+    }
 
     totals.distance += activity.distance;
     totals.movingTime += activity.moving_time;
@@ -121,7 +130,9 @@ function reset() {
   totals = {
     distance: 0,
     pace: 0,
-    movingTime: 0
+    movingTime: 0,
+    maxSpeed: 0,
+    maxHeartRate: 0,
   };
   calculating = false;
   m.redraw();
