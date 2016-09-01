@@ -9,7 +9,7 @@ var views = {
 };
 
 var activities = [];
-var maxHeartRate = 200;
+var maxHeartRate = localStorage.maxHeartRate || 200;
 var zones, totals, calculating;
 
 function view() {
@@ -35,7 +35,10 @@ function view() {
           placeholder: "Max HR",
           max: 250, min: 60,
           value: maxHeartRate,
-          onchange: function(e) { maxHeartRate = parseInt(e.target.value); }
+          onchange: function(e) {
+            maxHeartRate = parseInt(e.target.value);
+            localStorage.maxHeartRate = maxHeartRate;
+          }
         })
       ]),
 
