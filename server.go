@@ -58,7 +58,7 @@ func main() {
 	path, _ := authenticator.CallbackPath()
 	http.HandleFunc(path, authenticator.HandlerFunc(oAuthSuccess, oAuthFailure))
 	http.Handle("/", r)
-	http.Handle("/assets/", http.FileServer(http.Dir("./public")))
+	http.Handle("/assets/", http.FileServer(http.Dir(filepath.Join(wd, "./public"))))
 
 	// listen for incoming connections
 	log.Fatal(http.ListenAndServe(":8080", nil))
