@@ -8,7 +8,7 @@ function percentage( value, total ) {
   return Math.round(value / total * 100);
 }
 
-module.exports = function( m, map, zones ) {
+module.exports = function( m, map, totals, zones ) {
   var zonePercentages = {
     0: percentage(zones[0], zones.total),
     1: percentage(zones[1], zones.total),
@@ -17,8 +17,40 @@ module.exports = function( m, map, zones ) {
     4: percentage(zones[4], zones.total),
   };
 
+  var date = new Date(null);
+  date.setSeconds(totals.movingTime / ( totals.distance / 1000 ) );
+
   return [
     m("h2", "Intensity Analysis"),
+
+
+    m('div.row.medium-margin', [
+
+      m('div.col.col-2', [
+        m('span.number', [
+          Math.round( totals.distance / 1000 ),
+          m('span.unit', " km")
+        ]),
+        m('span.label', 'Distance')
+      ]),
+
+      m('div.col.col-2', [
+        m('span.number', [
+          Math.round( totals.movingTime / 60 ),
+          m('span.unit', " min")
+        ]),
+        m('span.label', 'Moving Time')
+      ]),
+
+      m('div.col.col-2', [
+        m('span.number', [
+          date.toISOString().substr(14, 5)
+        ]),
+        m('span.label', "Pace")
+      ])
+
+    ]),
+
     m("table.distribution-chart", [
 
       // zone 1

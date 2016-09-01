@@ -3319,7 +3319,7 @@ var views = {
 
 var activities = [];
 var maxHeartRate = 200;
-var zones, calculating;
+var zones, totals, calculating;
 
 function view() {
   var map = {
@@ -3330,7 +3330,7 @@ function view() {
   };
 
   if( calculating ) {
-    return [ views.analysis(m, map, zones), m("p", m("a", { onclick: reset, href: "#" }, "Go back")) ];
+    return [ views.analysis(m, map, totals, zones), m("p", m("a", { onclick: reset, href: "#" }, "Go back")) ];
   }
 
   return [
@@ -3394,8 +3394,15 @@ function aggregate() {
 
   for(var i=0; i < data.activities.length; i++) {
     var activityId = data.activities[i];
+    var activity = getActivity(activityId);
+
+    totals.distance += activity.distance;
+    totals.movingTime += activity.moving_time;
+
+    // query streams
     qwest.get('/api/activities/' + activityId + '/streams')
      .then(function(xhr, data) {
+       // calculate heart rate zone
         for(var j=0; j < data.HeartRate.Data.length; j++) {
           var heartRate = data.HeartRate.Data[j];
           var zoneIndex = getZoneForHeartRateValue(heartRate);
@@ -3417,8 +3424,23 @@ function reset() {
     0: 0,
     "total": 0
   };
+  totals = {
+    distance: 0,
+    pace: 0,
+    movingTime: 0
+  };
   calculating = false;
   m.redraw();
+}
+
+function getActivity(id) {
+  for( var i=0; i<activities.length; i++) {
+    if(activities[i].id == id) {
+      return activities[i];
+    }
+  }
+
+  throw new Error("No activity with ID " + id);
 }
 
 // get all Strava activities
@@ -3512,7 +3534,7 @@ function percentage( value, total ) {
   return Math.round(value / total * 100);
 }
 
-module.exports = function( m, map, zones ) {
+module.exports = function( m, map, totals, zones ) {
   var zonePercentages = {
     0: percentage(zones[0], zones.total),
     1: percentage(zones[1], zones.total),
@@ -3521,8 +3543,40 @@ module.exports = function( m, map, zones ) {
     4: percentage(zones[4], zones.total),
   };
 
+  var date = new Date(null);
+  date.setSeconds(totals.movingTime / ( totals.distance / 1000 ) );
+
   return [
     m("h2", "Intensity Analysis"),
+
+
+    m('div.row.medium-margin', [
+
+      m('div.col.col-2', [
+        m('span.number', [
+          Math.round( totals.distance / 1000 ),
+          m('span.unit', " km")
+        ]),
+        m('span.label', 'Distance')
+      ]),
+
+      m('div.col.col-2', [
+        m('span.number', [
+          Math.round( totals.movingTime / 60 ),
+          m('span.unit', " min")
+        ]),
+        m('span.label', 'Moving Time')
+      ]),
+
+      m('div.col.col-2', [
+        m('span.number', [
+          date.toISOString().substr(14, 5)
+        ]),
+        m('span.label', "Pace")
+      ])
+
+    ]),
+
     m("table.distribution-chart", [
 
       // zone 1

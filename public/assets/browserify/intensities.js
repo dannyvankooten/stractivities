@@ -10,7 +10,7 @@ var views = {
 
 var activities = [];
 var maxHeartRate = 200;
-var zones, calculating;
+var zones, totals, calculating;
 
 function view() {
   var map = {
@@ -21,7 +21,7 @@ function view() {
   };
 
   if( calculating ) {
-    return [ views.analysis(m, map, zones), m("p", m("a", { onclick: reset, href: "#" }, "Go back")) ];
+    return [ views.analysis(m, map, totals, zones), m("p", m("a", { onclick: reset, href: "#" }, "Go back")) ];
   }
 
   return [
@@ -85,8 +85,15 @@ function aggregate() {
 
   for(var i=0; i < data.activities.length; i++) {
     var activityId = data.activities[i];
+    var activity = getActivity(activityId);
+
+    totals.distance += activity.distance;
+    totals.movingTime += activity.moving_time;
+
+    // query streams
     qwest.get('/api/activities/' + activityId + '/streams')
      .then(function(xhr, data) {
+       // calculate heart rate zone
         for(var j=0; j < data.HeartRate.Data.length; j++) {
           var heartRate = data.HeartRate.Data[j];
           var zoneIndex = getZoneForHeartRateValue(heartRate);
@@ -108,8 +115,23 @@ function reset() {
     0: 0,
     "total": 0
   };
+  totals = {
+    distance: 0,
+    pace: 0,
+    movingTime: 0
+  };
   calculating = false;
   m.redraw();
+}
+
+function getActivity(id) {
+  for( var i=0; i<activities.length; i++) {
+    if(activities[i].id == id) {
+      return activities[i];
+    }
+  }
+
+  throw new Error("No activity with ID " + id);
 }
 
 // get all Strava activities
