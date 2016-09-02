@@ -118,7 +118,7 @@ module.exports = function( m, map, totals, zones ) {
       // zone 4
       m("tr", [
         m("td", "Z4"),
-        m("td", "DEATH"),
+        m("td", "Treshold"),
         m("td", map[2] + " - " + map[3] ),
         m("td.bolded", zonePercentages[3] + "%"),
         m("td", m( "div.bar",  m("div.fill.z4", { style: "width: " + zonePercentages[3] + "%" })))
