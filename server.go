@@ -68,7 +68,7 @@ func getHome(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 
 	p := map[string]string{
-		"AuthURL": authenticator.AuthorizationURL("state1", strava.Permissions.Public, true),
+		"AuthURL": authenticator.AuthorizationURL("state1", strava.Permissions.Public, false),
 	}
 
 	t, _ := template.ParseFiles(filepath.Join(wd, "./index.html"))
