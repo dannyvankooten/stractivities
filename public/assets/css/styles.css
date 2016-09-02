@@ -30,6 +30,30 @@ body {
   padding: 40px;
   box-sizing: border-box;
 }
+.home .container {
+  background: none;
+}
+
+.jumbo {
+  color: white;
+}
+.jumbo h1,
+.jumbo h2 {
+  font-size: 48px;
+  text-shadow: 1px white;
+}
+
+.jumbo p{
+  font-size: 24px;
+}
+
+.small {
+  font-size: 15px !important;
+}
+
+.em {
+  font-style: italic;
+}
 
 .header {
   margin-bottom: 40px;
@@ -41,7 +65,7 @@ body {
   position: fixed;
   bottom: 10px;
   right: 10px;
-  background: rgba(255, 255, 255, .5);
+  background: rgba(255, 255, 255, .75);
   color: #555;
   font-size: 13px;
   vertical-align: bottom;
@@ -98,6 +122,11 @@ a{
   color: #FC4C02;
 }
 
+a:hover,
+a:focus {
+  text-decoration: none;
+}
+
 label {
   display: block;
   font-weight: bold;
@@ -135,8 +164,10 @@ button:focus {
   background-color: #e34402;
 }
 
-.lead {
-  font-size: 18px;
+
+.help {
+  font-size: 14px;
+  color: #666;
   font-style: italic;
 }
 
@@ -194,7 +225,10 @@ button:focus {
 .bolded {
   font-weight: bold;
 }
-
+.small-margin{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
 .medium-margin {
   margin-top: 40px;
   margin-bottom: 40px;
@@ -231,12 +265,13 @@ button:focus {
   width: 33.333%;
 }
 
-@media(max-width: 640px) {
+@media(max-width: 680px) {
   body {
     padding: 10px;
   }
   .container {
     padding: 20px;
+    max-width: none;
   }
 
   .hide-on-mobile {
@@ -247,8 +282,12 @@ button:focus {
     position: relative;
     display: block;
     text-align: center;
-    margin-top: 20px;
-    margin-bottom: 10px;
+    margin-top: 10px;
     bottom: auto; right: auto;
+  }
+
+  .home .footer{
+    box-sizing: border-box;
+    max-width: 480px;
   }
 }
