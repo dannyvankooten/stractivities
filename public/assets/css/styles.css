@@ -34,6 +34,10 @@ body {
   background: none;
 }
 
+.container p:first-child{
+  margin-top: 0;
+}
+
 .jumbo h1,
 .jumbo h2 {
   font-size: 48px;
