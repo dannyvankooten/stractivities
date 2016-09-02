@@ -3,7 +3,7 @@
 var lastChecked;
 
 function selectAll(e) {
-  var elements = document.querySelectorAll('input[name="'+ e.target.getAttribute('data-name') +'"]');
+  var elements = document.querySelectorAll('input[name="'+ e.target.getAttribute('data-name') +'"], input[data-name="'+ e.target.getAttribute('data-name') +'"]');
   for( var i=0; i<elements.length; i++) {
       elements[i].checked = e.target.checked;
   }
@@ -38,6 +38,7 @@ function selectMultiple(e) {
 
 module.exports = function(m, activities) {
   return m("table", [
+
     // table header
     m("thead", [
       m("tr", [
@@ -71,7 +72,23 @@ module.exports = function(m, activities) {
           m("td.centered.hide-on-mobile", Math.round(a.elapsed_time/60) + " min"),
           m("td.centered.hide-on-mobile", Math.round(a.average_heartrate))
         ])
-    }))
+    })),
+
+    // table header
+    m("tfoot", [
+      m("tr", [
+        m('th', m('input', {
+          type: "checkbox",
+          onclick: selectAll,
+          "data-name": "activities[]",
+          title: "Select all"
+        })),
+        m('th', 'Date'),
+        m('th', 'Name'),
+        m('th.hide-on-mobile', 'Duration'),
+        m('th.hide-on-mobile', 'Avg HR')
+      ])
+    ]),
 
   ]);
 }
