@@ -3317,8 +3317,6 @@ var views = {
   activities: require('./views/activities.js')
 };
 
-console.log("Test");
-
 var activities = [];
 var maxHeartRate = localStorage.maxHeartRate || 200;
 var zones, totals, calculating;
@@ -3477,6 +3475,13 @@ window.onload = function() {
 
 var lastChecked;
 
+function selectAll(e) {
+  var elements = document.querySelectorAll('input[name="'+ e.target.getAttribute('data-name') +'"]');
+  for( var i=0; i<elements.length; i++) {
+      elements[i].checked = e.target.checked;
+  }
+}
+
 function selectMultiple(e) {
   if( e.shiftKey && lastChecked ) {
     var elements = document.querySelectorAll('input[name="'+ e.target.name +'"]');
@@ -3509,7 +3514,12 @@ module.exports = function(m, activities) {
     // table header
     m("thead", [
       m("tr", [
-        m('th', ''),
+        m('th', m('input', {
+          type: "checkbox",
+          onclick: selectAll,
+          "data-name": "activities[]",
+          title: "Select all"
+        })),
         m('th', 'Date'),
         m('th', 'Name'),
         m('th.hide-on-mobile', 'Duration'),

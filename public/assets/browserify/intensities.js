@@ -8,8 +8,6 @@ var views = {
   activities: require('./views/activities.js')
 };
 
-console.log("Test");
-
 var activities = [];
 var maxHeartRate = localStorage.maxHeartRate || 200;
 var zones, totals, calculating;
