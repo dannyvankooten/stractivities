@@ -21,8 +21,11 @@
   },
   "devDependencies": {
     "browserify": "^13.1.0",
+    "event-stream": "^3.3.4",
     "gulp": "^3.9.1",
     "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^2.0.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   }
