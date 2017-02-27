@@ -1,0 +1,13 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "pAUm2I2E9VRQB7j0CwYh2neM850=",
+			"path": "github.com/strava/go.strava",
+			"revision": "f5c7cee1038b80d25e3d262208d295c10ca2ac4b",
+			"revisionTime": "2016-01-23T22:59:43Z"
+		}
+	],
+	"rootPath": "github.com/dannyvankooten/stractivities"
+}

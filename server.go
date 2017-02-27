@@ -22,8 +22,10 @@ var userTokens map[int64]string
 var store *sessions.CookieStore
 var siteURL string
 var wd string
+var indexTemplate *template.Template
 
 func main() {
+	var err error
 	flag.StringVar(&siteURL, "site_url", "http://localhost/", "Site URL")
 	flag.IntVar(&port, "port", 8080, "HTTP Port")
 	flag.IntVar(&strava.ClientId, "id", 0, "Strava Client ID")
@@ -36,8 +38,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	wd, _ = os.Getwd()
-
 	// bootstrap auth stuff
 	authenticator = &strava.OAuthAuthenticator{
 		CallbackURL:            fmt.Sprintf("%s/exchange_token", siteURL),
@@ -47,6 +47,13 @@ func main() {
 
 	// set-up session store, re-use Strava client secret for encoding.
 	store = sessions.NewCookieStore([]byte(strava.ClientSecret))
+
+	// parse template
+	wd, _ = os.Getwd()
+	indexTemplate, err = template.ParseFiles(filepath.Join(wd, "./index.html"))
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// setup routing
 	r := mux.NewRouter()
@@ -71,8 +78,7 @@ func getHome(w http.ResponseWriter, r *http.Request) {
 		"AuthURL": authenticator.AuthorizationURL("state1", strava.Permissions.Public, false),
 	}
 
-	t, _ := template.ParseFiles(filepath.Join(wd, "./index.html"))
-	t.Execute(w, p)
+	indexTemplate.Execute(w, p)
 }
 
 func oAuthSuccess(auth *strava.AuthorizationResponse, w http.ResponseWriter, r *http.Request) {
