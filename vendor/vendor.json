@@ -3,6 +3,30 @@
 	"ignore": "test",
 	"package": [
 		{
+			"checksumSHA1": "g/V4qrXjUGG9B+e3hB+4NAYJ5Gs=",
+			"path": "github.com/gorilla/context",
+			"revision": "08b5f424b9271eedf6f9f0ce86cb9396ed337a42",
+			"revisionTime": "2016-08-17T18:46:32Z"
+		},
+		{
+			"checksumSHA1": "Ek5SW7pswB7YzX1Dr0bTSFCNOtc=",
+			"path": "github.com/gorilla/mux",
+			"revision": "999ef73f5d50979cf6d12afed1726325b63f9570",
+			"revisionTime": "2017-02-23T20:25:54Z"
+		},
+		{
+			"checksumSHA1": "ucTBCc7dDRKLGPsYfAzu/Gq63qA=",
+			"path": "github.com/gorilla/securecookie",
+			"revision": "e59506cc896acb7f7bf732d4fdf5e25f7ccd8983",
+			"revisionTime": "2017-02-24T19:38:04Z"
+		},
+		{
+			"checksumSHA1": "hjokwSasd7HGxrvg25ENe1l2MJs=",
+			"path": "github.com/gorilla/sessions",
+			"revision": "803ac3201723cc018469e5db5dc341b501dd8b21",
+			"revisionTime": "2017-02-24T19:39:18Z"
+		},
+		{
 			"checksumSHA1": "pAUm2I2E9VRQB7j0CwYh2neM850=",
 			"path": "github.com/strava/go.strava",
 			"revision": "f5c7cee1038b80d25e3d262208d295c10ca2ac4b",
